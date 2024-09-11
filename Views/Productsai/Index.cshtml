@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Ecommerce.Models.Product>
 
 @{
-    ViewData["Title"] = "Products in " + ViewBag.CategoryName;
+    ViewData["Title"] = "Products in " + @ViewBag.CategoryName;
 }
 
 <div class="container">
@@ -9,21 +9,23 @@
 
     @if (Model.Any())
     {
-        <div class="row">
+        <div class="product-grid">
             @foreach (var product in Model)
             {
-                <div class="col-lg-3 col-sm-6 mb-4">
-                    <div class="card">
-                        <img src="/images/placeholder.png" class="card-img-top" alt="@product.ModelName" /> <!-- Use a placeholder or actual image -->
-                        <div class="card-body">
-                            <h5 class="card-title">@product.ModelName</h5>
-                            <p class="card-text">@product.Description</p>
-                            <p class="card-text"><strong>@product.UnitCost.ToString("c")</strong></p>
-                            <form asp-controller="ShoppingCart" asp-action="AddToCart" method="post" class="d-inline">
-                                <input type="hidden" name="productId" value="@product.ProductId" />
-                                <button type="submit" class="btn btn-success">Add to Cart</button>
-                            </form>
-                        </div>
+                <div class="product-card">
+                    <img src="@Url.Content("~/images/placeholder.png")" class="product-image" alt="@product.ModelName" />
+                    <div class="card-body">
+                        <b class="card-title">@product.ModelName</b>
+                        <p class="card-text">@product.Description</p>
+                        <!-- Unit cost positioned at the left bottom corner -->
+                        <p class="card-text unit-cost"><strong>@product.UnitCost.ToString("c")</strong></p>
+                        <!-- Cart icon positioned at the right bottom corner -->
+                        <form asp-controller="ShoppingCart" asp-action="AddToCart" method="post" class="add-to-cart-form">
+                            <input type="hidden" name="productId" value="@product.ProductId" />
+                            <button type="submit" class="btn btn-success btn-icon">
+                                <i class="fas fa-cart-plus"></i> <!-- Font Awesome cart icon -->
+                            </button>
+                        </form>
                     </div>
                 </div>
             }
@@ -34,3 +36,101 @@
         <p>No products found in this category.</p>
     }
 </div>
+
+<style>
+    .container {
+        padding: 20px;
+    }
+
+    h1 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+        text-align: center;
+    }
+
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); /* 4 columns */
+        gap: 20px; /* Space between items */
+    }
+
+    .product-card {
+        position: relative;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        height: 410px; /* Increased height by 10px */
+    }
+
+    .product-image {
+        width: calc(100% - 20px); /* Adjust width for padding */
+        height: 200px; /* Fixed height for consistency */
+        object-fit: cover;
+        padding: 10px; /* Padding to ensure image does not stick to border */
+        margin: 10px; /* Margin to center the image within its container */
+    }
+
+    .card-body {
+        flex: 1;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+    }
+
+    .card-title {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        font-size: 16px;
+        color: #555;
+        margin-bottom: 10px;
+    }
+
+    .unit-cost {
+        font-size: 16px;
+        color: #333;
+        font-weight: bold;
+        margin-top: auto;
+    }
+
+    .btn-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px; /* Adjust padding */
+        font-size: 20px; /* Increased icon size */
+        border: none;
+        background-color: transparent;
+        color: #fff;
+        position: absolute;
+        bottom: 16px;
+        right: 16px; /* Position cart icon at the bottom right */
+    }
+
+    .btn-success {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        color: #fff;
+        border-radius: 4px;
+    }
+
+        .btn-success:hover {
+            background-color: #0b5ed7;
+            border-color: #0a58ca;
+        }
+
+    .add-to-cart-form {
+        position: absolute;
+        bottom: 16px;
+        right: 16px;
+        margin: 0;
+    }
+</style>

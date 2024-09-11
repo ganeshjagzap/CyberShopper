@@ -4280,23 +4280,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\gjagzap\\.nuget\\packages\\": {},
+    "C:\\Users\\mmalani\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\gjagzap\\OneDrive - Capgemini\\Desktop\\Final\\EcommerceShopping\\Ecommerce\\Ecommerce.csproj",
+      "projectUniqueName": "C:\\Users\\mmalani\\OneDrive - Capgemini\\Desktop\\New folder\\CyberShopper\\Ecommerce.csproj",
       "projectName": "Ecommerce",
-      "projectPath": "C:\\Users\\gjagzap\\OneDrive - Capgemini\\Desktop\\Final\\EcommerceShopping\\Ecommerce\\Ecommerce.csproj",
-      "packagesPath": "C:\\Users\\gjagzap\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\gjagzap\\OneDrive - Capgemini\\Desktop\\Final\\EcommerceShopping\\Ecommerce\\obj\\",
+      "projectPath": "C:\\Users\\mmalani\\OneDrive - Capgemini\\Desktop\\New folder\\CyberShopper\\Ecommerce.csproj",
+      "packagesPath": "C:\\Users\\mmalani\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mmalani\\OneDrive - Capgemini\\Desktop\\New folder\\CyberShopper\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\gjagzap\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\mmalani\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
