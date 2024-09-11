@@ -1,25 +1,28 @@
-﻿using Ecommerce.Repository;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Ecommerce.Repository;
 using Ecommerce.Models;
+using System.Linq;
+using System.Security.Claims;
+using System;
 
 namespace Ecommerce.Controllers
 {
+    [Authorize]
     public class ShoppingCartController : Controller
     {
-
         private readonly IShoppingCartRepository _shoppingCartRepository;
+
         public ShoppingCartController(IShoppingCartRepository shoppingCartRepository)
         {
             _shoppingCartRepository = shoppingCartRepository;
         }
 
-     
         public IActionResult Index()
         {
-            var items=_shoppingCartRepository.GetAllItemFromCart();
+            var items = _shoppingCartRepository.GetAllItemFromCart();
             return View(items);
         }
-
 
         public IActionResult AllProducts()
         {
@@ -27,7 +30,7 @@ namespace Ecommerce.Controllers
             return View(products);
         }
 
-
+        [HttpPost]
         public IActionResult AddToCart(int productId)
         {
             var product = _shoppingCartRepository.GetProduct(productId);
@@ -35,45 +38,40 @@ namespace Ecommerce.Controllers
             {
                 _shoppingCartRepository.AddToCart(product);
             }
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
 
-      
         [HttpGet]
         public IActionResult UpdateCart(int productId)
         {
             var item = _shoppingCartRepository.GetProductById(productId);
             return View(item);
         }
+
         [HttpPost]
         public IActionResult UpdateCart(int productId, int quantity)
         {
-           var product = _shoppingCartRepository.GetProductById(productId);
+            var product = _shoppingCartRepository.GetProductById(productId);
             if (product != null)
             {
-
                 _shoppingCartRepository.UpdateCart(product, quantity);
-
             }
-            
             return RedirectToAction("Index");
         }
+
         [HttpGet]
         public IActionResult RemoveFromCart(int productId)
         {
-
             var item = _shoppingCartRepository.GetProductById(productId);
             return View(item);
         }
 
+        [HttpPost]
         public IActionResult RemoveFromCart(ShoppingCart item)
         {
-            
             _shoppingCartRepository.RemoveFromCart(item);
             return RedirectToAction("Index");
         }
-
-
 
         [HttpGet]
         public IActionResult Checkout()
@@ -90,48 +88,57 @@ namespace Ecommerce.Controllers
         [HttpPost]
         public IActionResult PlaceOrder()
         {
-            var items = _shoppingCartRepository.GetAllItemFromCart();
+            // Retrieve the current user's ID from the claims
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (items.Any())
+            if (int.TryParse(userId, out int customerId))
             {
-                var order = new Order
+                var items = _shoppingCartRepository.GetAllItemFromCart();
+
+                if (items.Any())
                 {
-                    CustomerId = 1, // Set this to the actual customer ID
-                    OrderDate = DateTime.Now,
-                    OrderDetails = items.Select(item => new OrderDetail
+                    var order = new Order
                     {
-                        ProductId = item.ProductId,
-                        Quantity = item.Quantity,
-                        UnitCost = item.Product.UnitCost
-                    }).ToList()
-                };
+                        CustomerId = customerId, // Use the actual customer ID
+                        OrderDate = DateTime.Now,
+                        OrderDetails = items.Select(item => new OrderDetail
+                        {
+                            ProductId = item.ProductId,
+                            Quantity = item.Quantity,
+                            UnitCost = item.Product.UnitCost
+                        }).ToList()
+                    };
 
-                _shoppingCartRepository.PlaceOrder(order);
-                _shoppingCartRepository.SaveOrderToHistory(order); // Save to history
+                    _shoppingCartRepository.PlaceOrder(order);
+                    _shoppingCartRepository.SaveOrderToHistory(order); // Save to history
+                    _shoppingCartRepository.ClearCart();
 
-                // Clear the shopping cart after placing the order
-                _shoppingCartRepository.ClearCart();
-
-                return RedirectToAction("OrderConfirmation");
+                    return RedirectToAction("OrderConfirmation");
+                }
             }
 
             return RedirectToAction("Index");
         }
-
 
         public IActionResult OrderConfirmation()
         {
             ViewData["Message"] = "Your order has been placed successfully!";
             return View();
         }
+
         [HttpGet]
         public IActionResult OrderHistory()
         {
-            var customerId = 1; // Set this to the actual customer ID
-            var orderHistory = _shoppingCartRepository.GetOrderHistory(customerId);
-            return View(orderHistory);
-        }
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+            if (int.TryParse(userId, out int customerId))
+            {
+                var orderHistory = _shoppingCartRepository.GetOrderHistory(customerId);
+                return View(orderHistory);
+            }
+
+            return RedirectToAction("Index");
+        }
 
         [HttpGet]
         public IActionResult OrderDetails(int id)
@@ -143,9 +150,5 @@ namespace Ecommerce.Controllers
             }
             return View(orderHistory);
         }
-
-
-
-
     }
 }
