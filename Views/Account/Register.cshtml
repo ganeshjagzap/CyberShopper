@@ -1,28 +1,174 @@
 ﻿@model Ecommerce.Models.ViewModels.RegisterViewModel;
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
 
-<h2>Register</h2>
+<div class="form-box">
+    <div id="btn"></div>
+    <button type="button" class="toggle-btn" onclick="register()">Register</button>
 
-<form asp-action="Register" method="post">
-    <div class="form-group">
-        <label for="FullName">Full Name</label>
-        <input asp-for="FullName" class="form-control" />
-        <span asp-validation-for="FullName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label for="EmailAddress">Email Address</label>
-        <input asp-for="EmailAddress" class="form-control" />
-        <span asp-validation-for="EmailAddress" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label for="Password">Password</label>
-        <input asp-for="Password" type="password" class="form-control" />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label for="DeliveryAddress">Delivery Address</label>
-        <input asp-for="DeliveryAddress" class="form-control" />
-        <span asp-validation-for="DeliveryAddress" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Register</button>
-</form>
+    <form id="register-form" class="input-group" asp-controller="Account" asp-action="Register" method="post" onsubmit="return validatePasswords()">
+        <div>
+            <input asp-for="FullName" class="input-feild" placeholder="Full Name" />
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
+        <div>
+            <input asp-for="EmailAddress" class="input-feild" placeholder="Email Id" />
+            <span asp-validation-for="EmailAddress" class="text-danger"></span>
+        </div>
+        <div>
+            <input asp-for="Password" id="password1" class="input-feild" type="password" placeholder="Enter Password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div>
+            <input id="password2" class="input-feild" type="password" placeholder="Confirm Password" />
+            <div id="error-message" class="error-message" style="display: none;">Both Passwords should match</div>
+        </div>
+        <div>
+            <input asp-for="DeliveryAddress" class="input-feild" placeholder="Delivery Address" />
+            <span asp-validation-for="DeliveryAddress" class="text-danger"></span>
+        </div>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <button type="submit" class="submit-btn">Register</button>
+    </form>
+</div>
 
+<script>
+    function validatePasswords() {
+        var password1 = document.getElementById("password1").value;
+        var password2 = document.getElementById("password2").value;
+        var errorMessage = document.getElementById("error-message");
+
+        if (password1 && password2 && password1 !== password2) {
+            errorMessage.style.display = "block";
+            return false; // Prevent form submission
+        } else {
+            errorMessage.style.display = "none";
+            return true; // Allow form submission
+        }
+    }
+</script>
+
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+    }
+
+    .h1, h1 {
+        text-align: center;
+    }
+
+    .form-box {
+        width: 360px;
+        height: 490px;
+        position: relative;
+        margin: 6.7% auto;
+        background: white;
+        padding: 5px;
+        overflow: hidden;
+        border-radius: 25px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .button-box {
+        width: 220px;
+        margin: 35px auto;
+        position: relative;
+        border-radius: 30px;
+    }
+
+    .toggle-btn {
+        padding: 10px 20px;
+        background: transparent;
+        border: 0;
+        outline: none;
+        position: relative;
+        margin-left: 125px;
+        top: 25px;
+    }
+
+    #btn {
+        top: 30px;
+        left: 45px;
+        position: absolute;
+        width: 110px;
+        height: 40px;
+        background: linear-gradient(to right, #ffffff, #c7c2ba);
+        border-radius: 30px;
+        transition: .5s;
+        margin-left: 70px;
+    }
+
+    .input-group {
+        top: 100px;
+        position: absolute;
+        width: 280px;
+        transition: .5s;
+    }
+
+    .input-feild {
+        width: 100%;
+        padding: 10px 0;
+        margin: 5px 0;
+        border-left: 0;
+        border-right: 0;
+        border-top: 0;
+        border-bottom: 1px solid #999;
+        outline: none;
+        background: transparent;
+        margin-left: 20px;
+    }
+
+    .input-label {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    .submit-btn {
+        width: 85%;
+        padding: 10px 30px;
+        cursor: pointer;
+        display: block;
+        margin: auto;
+        background: linear-gradient(to right, #ffffff, #c7c2ba);
+        border: 0;
+        outline: none;
+        border-radius: 30px;
+        margin-top: 40px;
+    }
+
+    .checkbox-container {
+        margin: 30px 10px 30px 0;
+    }
+
+    .error-message {
+        color: red;
+        display: none;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+    span {
+        color: #777;
+        font-size: 12px;
+        bottom: 68px;
+        position: absolute;
+    }
+
+    form#register-form {
+        margin-left: 60px;
+    }
+
+    #login {
+        left: 50px;
+    }
+
+    #register {
+        left: 450px;
+    }
+</style>

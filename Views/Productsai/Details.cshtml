@@ -1,0 +1,103 @@
+﻿@model IEnumerable<Ecommerce.Models.Product>
+
+@{
+    ViewData["Title"] = "Details";
+}
+<h1>Hello this is product page</h1>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 16px;
+        text-align: left;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 12px;
+    }
+
+    th {
+        background-color: #f4f4f4;
+        color: #333;
+        font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    h1 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+    }
+
+    .add-product-link {
+        display: inline-block;
+        padding: 8px 16px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #007bff;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+        .add-product-link:hover {
+            background-color: #0056b3;
+        }
+
+    .product-image {
+        max-width: 100px; /* Adjust size as needed */
+        height: auto;
+        border-radius: 4px;
+    }
+</style>
+
+<h1>Details</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Images</th>
+            <th>Model Number</th>
+            <th>Model Name</th>
+            <th>Unit Cost</th>
+            <th>Description</th>
+            <th>Add to cart</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.ModelNumber))
+                    {
+                        var imageUrl = $"/images/dog.jpg"; // Assuming image URL pattern
+                        <img src="@imageUrl" alt="@item.ModelName" class="product-image" />
+                    }
+                    else
+                    {
+                        <p>No image available</p>
+                    }
+                </td>
+                <td>@item.ModelNumber</td>
+                <td>@item.ModelName</td>
+                <td>@item.UnitCost.ToString("C")</td> <!-- Format as currency -->
+                <td>@item.Description</td>
+                <td>
+                    <p>
+                        <a class="add-product-link" asp-action="AddToCart">Add Product To Cart</a>
+                    </p>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

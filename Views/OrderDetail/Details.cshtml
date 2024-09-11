@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Ecommerce.Models.OrderDetail>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Detail</title>
+</head>
+<body>
+    <h1>Order Details for Order ID: @Model.First().OrderId</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Quantity</th>
+                <th>Total Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var detail in Model)
+            {
+                <tr>
+                    <td>@detail.ProductId</td>
+                    <td>@detail.Quantity</td>
+                    <td>@detail.UnitCost</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

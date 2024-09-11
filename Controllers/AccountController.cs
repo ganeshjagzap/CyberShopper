@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ecommerce.Models;
 using Ecommerce.Models.ViewModels;
-
 using Ecommerce.Repository;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
+using System.Collections.Generic;
 
 namespace Ecommerce.Controllers
 {
@@ -32,13 +36,28 @@ namespace Ecommerce.Controllers
             }
 
             var customer = _accountRepository.GetCustomerByEmail(model.EmailAddress);
-            if (customer == null || customer.Password != model.Password) // Replace with hashed password comparison
+            if (customer == null || customer.Password != model.Password)
             {
                 ModelState.AddModelError("", "Invalid login attempt.");
                 return View(model);
             }
 
-            // Set authentication cookie here
+            // Set authentication cookie
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, customer.EmailAddress),
+                new Claim(ClaimTypes.Name, customer.FullName)
+            };
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authProperties = new AuthenticationProperties { IsPersistent = model.RememberMe };
+
+            // Sign in the user synchronously
+            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity), authProperties).GetAwaiter().GetResult();
+
+            HttpContext.Session.SetString("UserEmail", customer.EmailAddress);
+            HttpContext.Session.SetString("UserFullName", customer.FullName);
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -77,11 +96,36 @@ namespace Ecommerce.Controllers
             if (_accountRepository.SaveChanges())
             {
                 // Optionally set authentication cookie here
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Email, customer.EmailAddress),
+                    new Claim(ClaimTypes.Name, customer.FullName)
+                };
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var authProperties = new AuthenticationProperties { IsPersistent = false };
+
+                // Sign in the user synchronously
+                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity), authProperties).GetAwaiter().GetResult();
+
+                HttpContext.Session.SetString("UserEmail", customer.EmailAddress);
+                HttpContext.Session.SetString("UserFullName", customer.FullName);
                 return RedirectToAction("Login");
             }
 
             ModelState.AddModelError("", "Failed to register. Please try again.");
             return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            // Sign out the user synchronously
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme).GetAwaiter().GetResult();
+
+            HttpContext.Session.Clear();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
