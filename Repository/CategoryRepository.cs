@@ -19,15 +19,6 @@ namespace Ecommerce.Repository
             _dbSet = _context.Set<T>();
         }
 
-        /*public IActionResult Details(int id)
-        {
-            var product = _context.Products.Find(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            return View(product);
-        }*/
         public IEnumerable<T> GetAll()
         {
             return _dbSet.ToList();

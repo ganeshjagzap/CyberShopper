@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Ecommerce.Models.Product>
+
+@{
+    ViewData["Title"] = "Products in " + ViewBag.CategoryName;
+}
+
+<div class="container">
+    <h1 class="display-4">Products in @ViewBag.CategoryName</h1>
+
+    @if (Model.Any())
+    {
+        <div class="row">
+            @foreach (var product in Model)
+            {
+                <div class="col-lg-3 col-sm-6 mb-4">
+                    <div class="card">
+                        <img src="/images/placeholder.png" class="card-img-top" alt="@product.ModelName" /> <!-- Use a placeholder or actual image -->
+                        <div class="card-body">
+                            <h5 class="card-title">@product.ModelName</h5>
+                            <p class="card-text">@product.Description</p>
+                            <p class="card-text"><strong>@product.UnitCost.ToString("c")</strong></p>
+                            <form asp-controller="ShoppingCart" asp-action="AddToCart" method="post" class="d-inline">
+                                <input type="hidden" name="productId" value="@product.ProductId" />
+                                <button type="submit" class="btn btn-success">Add to Cart</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>No products found in this category.</p>
+    }
+</div>

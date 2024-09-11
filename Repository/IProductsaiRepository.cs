@@ -8,7 +8,8 @@ namespace Ecommerce.Repository
         Product GetProductById(int productId);
         void AddProduct(Product product);
         //void UpdateProduct(Product product);
-        void AddProductToCart(int productId);
+       // void AddProductToCart(int productId);
         IEnumerable<Product> GetAllProducts();
+
     }
 }
