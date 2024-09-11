@@ -1,11 +1,14 @@
-using Ecommerce.Models;
-using Ecommerce.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Ecommerce.Repository;
+using Ecommerce.Models;
+using System.Linq;
+using System.Security.Claims;
 using System.Diagnostics;
 
 namespace Ecommerce.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -20,10 +23,16 @@ namespace Ecommerce.Controllers
         }
         public IActionResult Index()
         {
-            var items = _productRepository.GetPopularProducts();
-            ViewBag.PopularProducts = items;
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (int.TryParse(userId, out int customerId))
+            {
+                var items = _productRepository.GetPopularProducts();
+                ViewBag.PopularProducts = items;
+                return View();
+            }
+            return RedirectToAction("Index");
 
-            return View();
+            
         }
 
 
