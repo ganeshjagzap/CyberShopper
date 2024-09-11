@@ -1,0 +1,29 @@
+﻿@model Ecommerce.Models.OrderHistory
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Unit Cost</th>
+            <th>Total Cost</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var detail in Model.OrderDetails)
+        {
+            <tr>
+                <td>@detail.Product.ModelName</td>
+                <td>@detail.Quantity</td>
+                <td>@detail.UnitCost</td>
+                <td>@(detail.Quantity * detail.UnitCost)</td>
+            </tr>
+        }
+    </tbody>
+</table>

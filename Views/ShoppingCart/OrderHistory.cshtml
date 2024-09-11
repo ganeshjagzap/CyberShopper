@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Ecommerce.Models.OrderHistory>
+
+@{
+    ViewData["Title"] = "Order History";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Order Date</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.OrderHistoryId</td>
+                <td>@order.OrderDate</td>
+                <td>
+                    <a asp-controller="ShoppingCart" asp-action="OrderDetails" asp-route-id="@order.OrderHistoryId" class="btn btn-info">View Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

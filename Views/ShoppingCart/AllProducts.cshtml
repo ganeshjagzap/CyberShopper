@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Ecommerce.Models.Product>
+
+@{
+    ViewData["Title"] = "All Products";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product ID</th>
+            <th>Model Name</th>
+            <th>Unit Cost</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.ProductId</td>
+                <td>@product.ModelName</td>
+                <td>@product.UnitCost</td>
+                <td>@product.Description</td>
+                <td>
+                    <form asp-controller="ShoppingCart" asp-action="AddToCart" method="post" class="d-inline">
+                        <input type="hidden" name="productId" value="@product.ProductId" />
+                        <button type="submit" class="btn btn-success">Add to Cart</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
