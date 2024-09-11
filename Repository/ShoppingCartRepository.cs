@@ -32,10 +32,7 @@ namespace Ecommerce.Repository
         public IEnumerable<ShoppingCart> GetAllItemFromCart() {
             return _context.ShoppingCarts.Include(sc => sc.Product).ToList();
         }
-       /*public OrderDetail GetOrderDetail(int orderId) {
-           var products= _context.ShoppingCarts.Include(sc => sc.Product).ToList();
-            return products.Find(i=>i.ProductId == orderId);
-        }*/
+      
 
          public OrderDetail GetOrderDetail(int orderId) {
              // First, get the list of ProductIds from the ShoppingCart that are relevant to this OrderId.

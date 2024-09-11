@@ -13,8 +13,12 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
-      "Id": "C:\\Users\\mmalani\\OneDrive - Capgemini\\Desktop\\New folder\\CyberShopper\\wwwroot\\images\\placeholder.png",
-      "PackagePath": "staticwebassets\\images\\placeholder.png"
+      "Id": "C:\\Users\\mmalani\\OneDrive - Capgemini\\Desktop\\New folder\\CyberShopper\\wwwroot\\images\\LAP1234.jpg",
+      "PackagePath": "staticwebassets\\images\\LAP1234.jpg"
+    },
+    {
+      "Id": "C:\\Users\\mmalani\\OneDrive - Capgemini\\Desktop\\New folder\\CyberShopper\\wwwroot\\images\\LAP1234.png",
+      "PackagePath": "staticwebassets\\images\\LAP1234.png"
     },
     {
       "Id": "C:\\Users\\mmalani\\OneDrive - Capgemini\\Desktop\\New folder\\CyberShopper\\wwwroot\\js\\site.js",

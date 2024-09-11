@@ -1,9 +1,11 @@
 ﻿using Ecommerce.Models;
 using Ecommerce.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Controllers
 {
+    [Authorize]
     public class ProductsaiController : Controller
     {
         private readonly IProductsaiRepository _repository;
