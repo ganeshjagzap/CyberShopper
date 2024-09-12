@@ -1,12 +1,7 @@
 ﻿@model IEnumerable<Ecommerce.Models.Product>
 
-@{
-    ViewData["Title"] = "Products in " + @ViewBag.CategoryName;
-}
 
 <div class="container">
-    <h1 class="display-4">Products in @ViewBag.CategoryName</h1>
-
     @if (Model.Any())
     {
         <div class="product-grid">
@@ -17,13 +12,11 @@
                     <div class="card-body">
                         <b class="card-title">@product.ModelName</b>
                         <p class="card-text">@product.Description</p>
-                        <!-- Unit cost positioned at the left bottom corner -->
                         <p class="card-text unit-cost"><strong>@product.UnitCost.ToString("c")</strong></p>
-                        <!-- Cart icon positioned at the right bottom corner -->
                         <form asp-controller="ShoppingCart" asp-action="AddToCart" method="post" class="add-to-cart-form">
                             <input type="hidden" name="productId" value="@product.ProductId" />
                             <button type="submit" class="btn btn-success btn-icon">
-                                <i class="fas fa-cart-plus"></i> <!-- Font Awesome cart icon -->
+                                <i class="fas fa-cart-plus"></i>
                             </button>
                         </form>
                     </div>
@@ -51,8 +44,8 @@
 
     .product-grid {
         display: grid;
-        grid-template-columns: repeat(4, 1fr); /* 4 columns */
-        gap: 20px; /* Space between items */
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px; 
     }
 
     .product-card {
@@ -62,15 +55,15 @@
         overflow: hidden;
         display: flex;
         flex-direction: column;
-        height: 410px; /* Increased height by 10px */
+        height: 410px;
     }
 
     .product-image {
-        width: calc(100% - 20px); /* Adjust width for padding */
-        height: 200px; /* Fixed height for consistency */
+        width: calc(100% - 20px); 
+        height: 200px;
         object-fit: cover;
-        padding: 10px; /* Padding to ensure image does not stick to border */
-        margin: 10px; /* Margin to center the image within its container */
+        padding: 10px; 
+        margin: 10px; 
     }
 
     .card-body {
@@ -105,14 +98,14 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 8px; /* Adjust padding */
-        font-size: 20px; /* Increased icon size */
+        padding: 8px;
+        font-size: 20px; 
         border: none;
         background-color: transparent;
         color: #fff;
         position: absolute;
         bottom: 16px;
-        right: 16px; /* Position cart icon at the bottom right */
+        right: 16px; 
     }
 
     .btn-success {

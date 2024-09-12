@@ -30,11 +30,11 @@ namespace Ecommerce.Data
            .HasIndex(c => c.EmailAddress)
            .IsUnique();
 
-            // Configure the primary key for OrderDetail
+            
             modelBuilder.Entity<OrderDetail>()
                 .HasKey(od => new { od.OrderDetailId });
 
-            // Configure the relationships
+            
             modelBuilder.Entity<OrderDetail>()
                 .HasOne(od => od.Order)
                 .WithMany(o => o.OrderDetails)

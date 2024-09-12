@@ -10,22 +10,21 @@ using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddDistributedMemoryCache(); // Required for session storage
+builder.Services.AddDistributedMemoryCache(); 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set the session timeout
-    options.Cookie.HttpOnly = true; // Prevent JavaScript access
-    options.Cookie.IsEssential = true; // Essential for application functionality
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true; 
+    options.Cookie.IsEssential = true; 
 });
 
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Account/Login"; // Redirect to login page if not authenticated
-        options.LogoutPath = "/Account/Logout"; // Redirect to logout page
-        options.AccessDeniedPath = "/Account/AccessDenied"; // Redirect if access is denied
+        options.LoginPath = "/Account/Login"; 
+        options.LogoutPath = "/Account/Logout"; 
+        options.AccessDeniedPath = "/Account/AccessDenied"; 
     });
 
 
@@ -41,7 +40,6 @@ builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped(typeof(ICategoryRepository<>), typeof(CategoryRepository<>));
 
 var app = builder.Build();
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");

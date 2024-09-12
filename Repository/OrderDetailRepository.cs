@@ -15,7 +15,7 @@ namespace Ecommerce.Repository
         }
         public IEnumerable<OrderDetail> GetAllOrderDetails()
         {
-            // Retrieve all order details synchronously
+            
             return _context.OrderDetails.ToList();
         }
 

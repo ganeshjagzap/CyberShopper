@@ -4,25 +4,10 @@
     ViewData["Title"] = "Index";
 }
 <head>
-    <!--<link rel="stylesheet" href="~/css/category.css" />-->
 </head>
 <h1>CATEGORIES</h1>
 
-<!--<p>
-<a asp-action="Create">Create New</a>
-</p>-->
 <table class="table">
-    <!--<thead>
-    <tr>
-    <th>
-    @*@Html.DisplayNameFor(model => model.CategoryName)
-    </th>
-    <th>
-                    @Html.DisplayNameFor(model => model.Description)*@>
-    </th>
-    <th></th>
-    </tr>
-    </thead>-->
     <tbody>
         @foreach (var item in Model)
         {
@@ -34,7 +19,6 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    <!-- Use a link for navigation -->
                     <a href="@Url.Action("Index", "Productsai", new { categoryId = item.CategoryId })" class="btn btn-primary">View Products</a>
                 </td>
             </tr>

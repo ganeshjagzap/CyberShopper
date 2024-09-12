@@ -7,8 +7,7 @@ namespace Ecommerce.Repository
         IEnumerable<Product> GetProductsByCategory(int categoryId);
         Product GetProductById(int productId);
         void AddProduct(Product product);
-        //void UpdateProduct(Product product);
-       // void AddProductToCart(int productId);
+        
         IEnumerable<Product> GetAllProducts();
 
     }

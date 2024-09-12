@@ -21,7 +21,6 @@ namespace Ecommerce.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        // GET: Category
         public IActionResult Index()
         {
             var categories = _categoryRepository.GetAll();

@@ -17,7 +17,7 @@ namespace Ecommerce.Models
         public string EmailAddress { get; set; }
 
         [Required]
-        [StringLength(15)] // Assuming the length should be 15 based on main changes
+        [StringLength(15)] 
         public string Password { get; set; }
 
         [Required]

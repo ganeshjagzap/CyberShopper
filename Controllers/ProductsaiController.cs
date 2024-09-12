@@ -9,8 +9,6 @@ namespace Ecommerce.Controllers
     public class ProductsaiController : Controller
     {
         private readonly IProductsaiRepository _repository;
-
-
         public ProductsaiController(IProductsaiRepository repository)
         {
             _repository = repository;
@@ -29,16 +27,6 @@ namespace Ecommerce.Controllers
             return View(products);
         }
 
-
-        /*
-                [HttpPost]
-                public IActionResult AddToCart(int productId)
-                {
-                    _repository.AddProductToCart(productId);
-                    // Redirect to a confirmation or cart page
-                    return RedirectToAction("Index1", new { categoryId = _repository.GetProductById(productId)?.CategoryId });
-                }
-        */
         [HttpGet]
         public IActionResult AddProduct()
         {
@@ -55,8 +43,5 @@ namespace Ecommerce.Controllers
             }
             return View(product);
         }
-
-
-
     }
 }

@@ -31,12 +31,8 @@ namespace Ecommerce.Controllers
                 ViewBag.PopularProducts = items;
                 return View();
             }
-            return RedirectToAction("Login","Account");
-
-            
+            return RedirectToAction("Login","Account");            
         }
-
-
 
         public IActionResult Privacy()
         {

@@ -18,13 +18,11 @@ namespace Ecommerce.Controllers
             _accountRepository = accountRepository;
         }
 
-        // GET: /Account/Login
         public IActionResult Login()
         {
             return View();
         }
 
-        // POST: /Account/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Login(LoginViewModel model)
@@ -41,7 +39,7 @@ namespace Ecommerce.Controllers
                 return View(model);
             }
 
-            // Set authentication cookie
+           
             var claims = new List<Claim>
     {
         new Claim(ClaimTypes.Email, customer.EmailAddress),
@@ -51,7 +49,7 @@ namespace Ecommerce.Controllers
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var authProperties = new AuthenticationProperties { IsPersistent = model.RememberMe };
 
-            // Sign in the user synchronously
+            
             HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity), authProperties).GetAwaiter().GetResult();
 
@@ -60,14 +58,11 @@ namespace Ecommerce.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-
-
-        // POST: /Account/Logout
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Logout()
         {
-            // Sign out the user synchronously
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme).GetAwaiter().GetResult();
             HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
@@ -79,7 +74,7 @@ namespace Ecommerce.Controllers
             return View();
         }
 
-        // POST: /Account/Register
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Register(RegisterViewModel model)
@@ -100,14 +95,13 @@ namespace Ecommerce.Controllers
             {
                 FullName = model.FullName,
                 EmailAddress = model.EmailAddress,
-                Password = model.Password, // Replace with hashed password
+                Password = model.Password,
                 DeliveryAddress = model.DeliveryAddress
             };
 
             _accountRepository.AddCustomer(customer);
             if (_accountRepository.SaveChanges())
             {
-                // Optionally set authentication cookie here
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Email, customer.EmailAddress),
@@ -116,7 +110,6 @@ namespace Ecommerce.Controllers
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var authProperties = new AuthenticationProperties { IsPersistent = false };
 
-                // Sign in the user synchronously
                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity), authProperties).GetAwaiter().GetResult();
 

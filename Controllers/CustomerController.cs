@@ -21,13 +21,7 @@ namespace Ecommerce.Controllers
             _customerRepository = customerRepository;
         }
 
-        /*GET: Customer
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Customers.ToListAsync());
-        }*/
-
-        // GET: Customer/Details/5
+      
         public IActionResult Details()
         {
             int userId = 1;
@@ -41,7 +35,6 @@ namespace Ecommerce.Controllers
             return View(customer);
         }
 
-        // GET: Customer/Edit/5
         public IActionResult Edit()
         {
             int userId = 1;

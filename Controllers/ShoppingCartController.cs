@@ -88,7 +88,6 @@ namespace Ecommerce.Controllers
         [HttpPost]
         public IActionResult PlaceOrder()
         {
-            // Retrieve the current user's ID from the claims
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (int.TryParse(userId, out int customerId))
@@ -99,7 +98,7 @@ namespace Ecommerce.Controllers
                 {
                     var order = new Order
                     {
-                        CustomerId = customerId, // Use the actual customer ID
+                        CustomerId = customerId, 
                         OrderDate = DateTime.Now,
                         OrderDetails = items.Select(item => new OrderDetail
                         {
@@ -110,7 +109,7 @@ namespace Ecommerce.Controllers
                     };
 
                     _shoppingCartRepository.PlaceOrder(order);
-                    _shoppingCartRepository.SaveOrderToHistory(order); // Save to history
+                    _shoppingCartRepository.SaveOrderToHistory(order); 
                     _shoppingCartRepository.ClearCart();
 
                     return RedirectToAction("OrderConfirmation");

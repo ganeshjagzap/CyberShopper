@@ -22,7 +22,6 @@ namespace Ecommerce.Controllers
             return View(orderDetails);
         }
 
-        // GET: OrderDetail/Details/5
         public IActionResult Details(int orderId)
         {
             var orderDetails = _orderDetailRepository.GetOrderDetailsByOrderId(orderId);

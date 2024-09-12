@@ -7,7 +7,7 @@ namespace Ecommerce.Repository
     public class ProductsaiRepository : IProductsaiRepository
     {
         private readonly List<Product> _products;
-        private readonly List<int> _cart; // To store product IDs in the cart
+        private readonly List<int> _cart; 
         private readonly ApplicationDbContext _context;
 
         public ProductsaiRepository(ApplicationDbContext context)
@@ -23,7 +23,7 @@ namespace Ecommerce.Repository
         public ProductsaiRepository()
         {
             _products = new List<Product>();
-            _cart = new List<int>(); // Initialize an empty cart
+            _cart = new List<int>(); 
         }
 
         public IEnumerable<Product> GetProductsByCategory(int categoryId)
