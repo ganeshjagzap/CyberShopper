@@ -8,7 +8,7 @@
     @foreach (var item in Model)
     {
         <div class="product-card">
-            <img src="~/images/placeholder.png" alt="@item.ModelName" class="product-image" />
+            <img src=@item.ImageUrl alt="@item.ModelName" class="product-image" />
             <h2>@item.ModelName</h2>
             <p>@item.Description</p>
             <p class="unit-cost">@item.UnitCost.ToString("C")</p> 

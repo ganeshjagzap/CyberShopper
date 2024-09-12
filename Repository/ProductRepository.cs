@@ -33,7 +33,8 @@ namespace Ecommerce.Repository
                     ProductId= p.ProductId,
                     ModelName= p.ModelName,
                     UnitCost= p.UnitCost,
-                    Description= p.Description
+                    ImageUrl=p.ImageUrl,
+                    Description = p.Description
                 }).ToList();
         }
     }

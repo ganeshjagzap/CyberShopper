@@ -10,12 +10,11 @@
 <div class="container">
     @if (popular != null && popular.Any())
     {
-        var imageUrl = $"/images/Image.jpg";
         <div class="fake">
             @foreach (var item in popular)
             {
                 <div class="product-card">
-                    <img src="@imageUrl" class="product-image" alt="@item.ModelName" />
+                    <img src=@item.ImageUrl class="product-image" alt="@item.ModelName" />
                     <div class="card-body">
                         <b class="card-title">@item.ModelName</b>
                         <p class="card-text">@item.Description</p>

@@ -29,6 +29,9 @@ namespace Ecommerce.Models
         [StringLength(500)]
         public string Description { get; set; }
 
+        [StringLength(2048)]
+        public string ImageUrl { get; set; }
+
         public ICollection<OrderDetail> OrderDetails { get; set; }
         public ICollection<ShoppingCart> ShoppingCarts { get; set; }
     }
