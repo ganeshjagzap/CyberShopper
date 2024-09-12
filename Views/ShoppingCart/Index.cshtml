@@ -21,13 +21,19 @@
             <tr>
                 <td>@item.ProductId</td>
                 <td>@item.Product.ModelName</td>
-                <td>@item.Quantity</td>
                 <td>
-                    <form asp-controller="ShoppingCart" asp-action="UpdateCart" method="get" class="d-inline">
-                        <input type="hidden" name="productId" value="@item.ProductId" />
-                        <button type="submit" class="btn btn-warning">Update Quantity</button>
+                    <form class="update-cart-form" data-product-id="@item.ProductId" data-quantity="@item.Quantity">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <button type="button" class="btn btn-outline-secondary decrease-btn">-</button>
+                                <input type="text" class="quantity-input form-control text-center" value="@item.Quantity" readonly />
+                                <button type="button" class="btn btn-outline-secondary increase-btn">+</button>
+                            </div>
+                        </div>
                     </form>
-                    <form asp-controller="ShoppingCart" asp-action="RemoveFromCart" method="post" class="d-inline">
+                </td>
+                <td>
+                    <form class="remove-cart-form" asp-controller="ShoppingCart" asp-action="RemoveFromCart" method="post" style="display:inline;">
                         <input type="hidden" name="productId" value="@item.ProductId" />
                         <button type="submit" class="btn btn-danger">Remove</button>
                     </form>
@@ -38,5 +44,63 @@
 </table>
 
 <h3>View All Products</h3>
-<a asp-controller="ShoppingCart" asp-action="AllProducts" class="btn btn-info">View All Products</a>
+<a asp-controller="Productsai" asp-action="Details" class="btn btn-info">View All Products</a>
 <a asp-controller="ShoppingCart" asp-action="Checkout" class="btn btn-info">Checkout</a>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Handle quantity updates
+            $('.update-cart-form').each(function () {
+                var $form = $(this);
+                var $quantityInput = $form.find('.quantity-input');
+                var $decreaseBtn = $form.find('.decrease-btn');
+                var $increaseBtn = $form.find('.increase-btn');
+                var productId = $form.data('product-id');
+
+                function updateCart(quantity) {
+                    $.ajax({
+                        url: '@Url.Action("UpdateCart", "ShoppingCart")',
+                        type: 'POST',
+                        data: {
+                            productId: productId,
+                            quantity: quantity
+                        },
+                        success: function (response) {
+                            console.log('Cart updated successfully!');
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error updating cart:', error);
+                        }
+                    });
+                }
+
+                $decreaseBtn.on('click', function () {
+                    var currentValue = parseInt($quantityInput.val(), 10);
+                    if (currentValue > 1) {
+                        var newValue = currentValue - 1;
+                        $quantityInput.val(newValue);
+                        updateCart(newValue);
+                    }
+                });
+
+                $increaseBtn.on('click', function () {
+                    var currentValue = parseInt($quantityInput.val(), 10);
+                    var newValue = currentValue + 1;
+                    $quantityInput.val(newValue);
+                    updateCart(newValue);
+                });
+            });
+        });
+    </script>
+}
+<style>
+    .input-group {
+        position: relative;
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        width: 25%;
+    }
+</style>

@@ -38,7 +38,7 @@ namespace Ecommerce.Controllers
             {
                 _shoppingCartRepository.AddToCart(product);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index");
         }
 
         [HttpGet]

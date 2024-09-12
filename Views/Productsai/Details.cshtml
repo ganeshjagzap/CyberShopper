@@ -3,7 +3,27 @@
 @{
     ViewData["Title"] = "Details";
 }
-<h1>Hello this is product page</h1>
+
+<div class="product-grid">
+    @foreach (var item in Model)
+    {
+        <div class="product-card">
+            <img src="~/images/placeholder.png" alt="@item.ModelName" class="product-image" />
+            <h2>@item.ModelName</h2>
+            <p>@item.Description</p>
+            <p class="unit-cost">@item.UnitCost.ToString("C")</p> <!-- Bold price positioned at bottom -->
+            
+            <form asp-controller="ShoppingCart" asp-action="AddToCart" method="post" class="add-product-link">
+                <input type="hidden" name="productId" value="@item.ProductId" />
+                <button type="submit" class="btn btn-link p-0">
+                    <i class="fas fa-shopping-cart fa-lg"></i>
+                </button>
+            </form>
+        </div>
+    }
+</div>
+
+
 <style>
     table {
         width: 100%;
@@ -38,66 +58,72 @@
         color: #333;
     }
 
+    .product-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: space-between;
+    }
+
+    .product-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* Space out elements */
+        flex: 1 1 calc(25% - 20px); /* 4 items per row with gap */
+        box-sizing: border-box;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 16px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        min-height: 350px; /* Ensure enough height to accommodate all elements */
+        position: relative; /* Positioning context for the cart icon */
+    }
+
+    .product-image {
+        max-width: 100%;
+        height: 150px; /* Fixed height */
+        object-fit: cover; /* Ensure image covers the box */
+        border-radius: 4px;
+    }
+
+    .product-card h2 {
+        font-size: 18px; /* Font size for product name */
+        color: #333;
+        margin: 10px 0;
+    }
+
+    .product-card p {
+        font-size: 16px; /* Font size for description */
+        color: #555;
+        margin: 5px 0;
+    }
+
+    .unit-cost {
+        font-size: 16px; /* Font size for price */
+        color: #333;
+        font-weight: bold; /* Bold price */
+        margin-top: auto; /* Pushes it to the bottom */
+    }
+
     .add-product-link {
         display: inline-block;
-        padding: 8px 16px;
+        padding: 8px;
         font-size: 16px;
         color: #fff;
-        background-color: #007bff;
         text-decoration: none;
         border-radius: 4px;
         transition: background-color 0.3s ease;
+        position: absolute;
+        bottom: 16px; /* Position at bottom with some space */
+        right: 16px; /* Position at right with some space */
     }
 
         .add-product-link:hover {
             background-color: #0056b3;
         }
 
-    .product-image {
-        max-width: 100px; /* Adjust size as needed */
-        height: auto;
-        border-radius: 4px;
+    .add-product-icon {
+        font-size: 20px; /* Icon size */
     }
 </style>
-
-<h1>Details</h1>
-
-<table>
-    <thead>
-        <tr>
-            <th>Images</th>
-            <th>Model Number</th>
-            <th>Model Name</th>
-            <th>Unit Cost</th>
-            <th>Description</th>
-            <th>Add to cart</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @if (!string.IsNullOrEmpty(item.ModelNumber))
-                    {
-                        var imageUrl = $"/images/dog.jpg"; // Assuming image URL pattern
-                        <img src="@imageUrl" alt="@item.ModelName" class="product-image" />
-                    }
-                    else
-                    {
-                        <p>No image available</p>
-                    }
-                </td>
-                <td>@item.ModelNumber</td>
-                <td>@item.ModelName</td>
-                <td>@item.UnitCost.ToString("C")</td> <!-- Format as currency -->
-                <td>@item.Description</td>
-                <td>
-                    <p>
-                        <a class="add-product-link" asp-action="AddToCart">Add Product To Cart</a>
-                    </p>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
