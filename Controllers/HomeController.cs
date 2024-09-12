@@ -21,6 +21,7 @@ namespace Ecommerce.Controllers
             _custRepository = custRepository;
             _productRepository = productRepository ?? throw new ArgumentNullException(nameof(_productRepository));
         }
+        [HttpGet]
         public IActionResult Index()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -30,7 +31,7 @@ namespace Ecommerce.Controllers
                 ViewBag.PopularProducts = items;
                 return View();
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Login","Account");
 
             
         }
